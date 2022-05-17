@@ -1,6 +1,9 @@
 name: Release Main Docker
 
 on:
+  push:
+    branches:
+      - "feature/zap-arm-builds-debug"
   workflow_dispatch:
   repository_dispatch:
     types: 'release-main-docker'
@@ -25,7 +28,7 @@ jobs:
         name: Login to DockerHub
         uses: docker/login-action@v2
         with:
-          username: zapbot
+          username: j12934
           password: ${{ secrets.ZAPBOT_DOCKER_TOKEN }}
       - 
         name: Build stable Docker image
@@ -36,9 +39,9 @@ jobs:
           file: docker/Dockerfile-stable
           platforms: linux/amd64,linux/arm/v7,linux/arm64
           tags: |
-            owasp/zap2docker-stable:s${{ env.REL_DATE }}
-            owasp/zap2docker-stable:${{ env.REL_VERSION }}
-            owasp/zap2docker-stable:latest
+            j12934/zap2docker-stable:s${{ env.REL_DATE }}
+            j12934/zap2docker-stable:${{ env.REL_VERSION }}
+            j12934/zap2docker-stable:latest
           build-args: |
             WEBSWING_URL=${{ secrets.WEBSWING_URL }}
       -
@@ -50,7 +53,7 @@ jobs:
           file: docker/Dockerfile-bare
           platforms: linux/amd64,linux/arm/v7,linux/arm64
           tags: |
-            owasp/zap2docker-bare:b${{ env.REL_DATE }}
-            owasp/zap2docker-bare:${{ env.REL_VERSION }}
-            owasp/zap2docker-bare:latest
+            j12934/zap2docker-bare:b${{ env.REL_DATE }}
+            j12934/zap2docker-bare:${{ env.REL_VERSION }}
+            j12934/zap2docker-bare:latest
 
